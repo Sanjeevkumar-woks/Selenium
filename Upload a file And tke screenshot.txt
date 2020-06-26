@@ -1,0 +1,136 @@
+BrowserSetUp Class:
+------------------
+package com.htc.test.utility;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+
+public class BrowsersSetUp 
+{
+	public static WebDriver setUpBrowser(String browserType)
+	{
+		WebDriver webDriver=null;
+		if(browserType.equalsIgnoreCase("ie"))
+		{
+			System.out.println("ie");
+			//internet explorer=G:\\downloads\\IEDriverServer_x64_3.14.0\\IEDriverServer.exe
+			System.setProperty("webdriver.ie.driver", "G:\\downloads\\IEDriverServer_x64_3.14.0\\IEDriverServer.exe");
+			webDriver=new InternetExplorerDriver();
+		}
+		else if(browserType.equalsIgnoreCase("gecko"))
+		{
+			System.out.println("GeckoBrowser");
+			//mozilla firefox=G:\\downloads\\geckodriver-v0.26.0-win64\\geckodriver.exe
+			System.setProperty("webdriver.gecko.driver", "G:\\downloads\\geckodriver-v0.26.0-win64\\geckodriver.exe");
+			webDriver=new FirefoxDriver();
+		}
+		else if(browserType.equalsIgnoreCase("chrome"))
+		{
+			System.out.println("chromeBrowser");
+			System.setProperty("webdriver.chrome.driver", "F:\\selenium chrome driver\\chromedriver.exe");
+			webDriver=new ChromeDriver();
+		}
+		else
+		{
+			System.out.println("entered browser type is invalid");
+		}
+		return webDriver;
+	}
+}
+
+PageObjects Class:
+-----------------
+package com.htc.test.pageobjects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class PageObjectClass 
+{
+static WebElement webElement;
+public static WebElement getFileUpload(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.id("uploadfile_0"));
+	return webElement;
+}
+public static WebElement getTermsLocator(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.id("terms"));
+	return webElement;
+}
+}
+Test Class:
+----------
+package com.htc.test.automation;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.htc.test.pageobjects.PageObjectClass;
+import com.htc.test.utility.BrowsersSetUp;
+
+public class TestClass 
+{
+static int numberOfRows;	
+static WebDriver webDriver;
+@BeforeClass
+public static void beforeClassMethod()
+{
+	webDriver=BrowsersSetUp.setUpBrowser("chrome");
+	webDriver.navigate().to("http://demo.guru99.com/test/upload/");
+}
+@DataProvider(name="link")
+public Object[][] webPage() throws IOException
+{
+Object[][] data=new Object[1][1];
+File file=new File("G:\\selenium_htc\\exercise2.xls");
+FileInputStream fileInputStream=new FileInputStream(file);
+HSSFWorkbook hssfWorkbook=new HSSFWorkbook(fileInputStream);
+Sheet sheet=hssfWorkbook.getSheet("Sheet1");
+System.out.println("workbook created");
+numberOfRows=sheet.getLastRowNum();
+for(int index=0;index<=numberOfRows;index++)
+{
+	Row row=sheet.getRow(index);
+	String source=row.getCell(0).getStringCellValue();
+	data[index][0]=source;
+}
+hssfWorkbook.close();
+fileInputStream.close();
+return data;
+}
+@Test(dataProvider="link")	
+public void testMethod(String path) throws IOException
+{
+	WebElement webElement=PageObjectClass.getFileUpload(webDriver);
+	webElement.click();
+	webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	Runtime.getRuntime().exec(path);
+	WebElement webElement1=PageObjectClass.getTermsLocator(webDriver);
+	webElement1.click();
+	if(webElement1.isSelected())
+	{
+		System.out.println("Toggled");
+	}
+	TakesScreenshot takesScreenshot=(TakesScreenshot)webDriver;
+	File file=takesScreenshot.getScreenshotAs(OutputType.FILE);
+	FileHandler.copy(file, new File("G:\\eclipsehtc\\SeleniumPart-2Q-2\\ScreenShots\\result.png"));
+}
+}
