@@ -1,0 +1,26 @@
+package com.htc.test.draganddrop;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
+import com.htc.seleniumtest.WebDriverFactory;
+
+public class DragandDropDemo 
+{
+public static void main(String[] args) throws InterruptedException 
+{
+	String url="http://dhtmlgoodies.com/scripts/drag-drop-custom/demo-drag-drop-3.html";
+	WebDriver webDriver=WebDriverFactory.hello("chrome");
+	webDriver.navigate().to(url);
+	webDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+	WebElement from=webDriver.findElement(By.xpath("//*[@id=\"box1\"]"));
+	WebElement to=webDriver.findElement(By.xpath("//*[@id=\"box106\"]"));
+	Thread.sleep(1000);
+	Actions actions=new Actions(webDriver);
+	actions.dragAndDrop(from, to).build().perform();
+}
+}

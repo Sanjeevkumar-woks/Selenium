@@ -1,0 +1,34 @@
+package com.htc.test.CalendarDemo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import com.htc.seleniumtest.WebDriverFactory;
+
+public class CalendarDemo
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+	WebDriver driver=WebDriverFactory.hello("chrome");	
+	String url= "https://demos.devexpress.com/MVCxDataEditorsDemos/Editors/Calendar";
+	driver.get(url);
+	driver.manage().window().maximize();
+	//go to a 23/09/2018
+	WebElement Element=driver.findElement(By.xpath("//*[@id=\"calendar_T\"]"));
+	Element.click();
+	Thread.sleep(5000);
+	Element.click();
+	Thread.sleep(5000);
+	driver.findElement(By.xpath("//*[@id=\"calendar_PTPCImg\"]")).click();
+	Thread.sleep(5000);
+	driver.findElement(By.xpath("//*[@id=\"calendar_yc_9\"]")).click();
+	Thread.sleep(5000);
+	driver.findElement(By.xpath("//*[@id=\"calendar_yc_8\"]")).click();
+	Thread.sleep(5000);
+	driver.findElement(By.xpath("//*[@id=\"calendar_mc_35\"]")).click();
+	Thread.sleep(5000);
+	driver.quit();
+	driver.close();
+	}
+}

@@ -1,0 +1,18 @@
+package petshop;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+//import org.junit.Test;
+public class Testdemo {
+public static void main(String[] args) throws InterruptedException 
+{
+	WebDriver driver=null;
+	System.out.println("Chrome");
+    System.setProperty("webdriver.chrome.driver","D:\\chromedriver_win32\\chromedriver.exe");
+    driver=new ChromeDriver();
+    driver.get("http://www.google.com"); 
+    Thread.sleep(30000);
+    driver.findElement(By.xpath("//*[@id=\"tsf\"]/div[2]/div[1]/div[1]/div/div[2]/input")).sendKeys("Barry");
+    driver.findElement(By.xpath("//*[@id=\"tsf\"]/div[2]/div[1]/div[3]/center/input[1]")).click();
+}
+}

@@ -1,0 +1,65 @@
+package com.htc.test.autocomplete;
+
+import java.util.List;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.htc.seleniumtest.WebDriverFactory;
+
+public class AutoCompleteDemo 
+{
+	WebDriver webDriver=null;
+	WebDriverWait webDriverWait=null;
+	By frameLocator=By.className("demo-frame");
+	By tagText=By.id("tags");
+	public static void main(String[] args) throws Exception 
+	{
+	AutoCompleteDemo autoCompleteDemo=new AutoCompleteDemo();
+	autoCompleteDemo.setUp();
+	autoCompleteDemo.executeTest();
+	}	
+	public void setUp()
+	{
+    webDriver=WebDriverFactory.hello("chrome");
+	webDriver.manage().window().maximize();
+	webDriverWait=new WebDriverWait(webDriver, 2);
+	}
+	public void executeTest() throws Exception
+	{
+		webDriver.navigate().to("https://jqueryui.com/autocomplete");
+		Thread.sleep(1000);
+		WebElement webElement=webDriver.findElement(frameLocator);
+		webDriver.switchTo().frame(webElement);
+		
+		webDriverWait.until(ExpectedConditions.presenceOfElementLocated(tagText));
+		WebElement webElement2=webDriver.findElement(tagText);
+		
+		Thread.sleep(1000);
+		webElement2.sendKeys("a");
+		Thread.sleep(1000);
+		selectOption("Java");
+		Thread.sleep(1000);
+	}
+	private void selectOption(String string) throws Exception 
+	{
+		// TODO Auto-generated method stub
+		WebElement webElement=webDriver.findElement(By.id("ui-id-1"));
+		webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+		List<WebElement> list=webDriver.findElements(By.tagName("li"));
+		for(int index=0;index<list.size();index++)
+		{
+			if(list.get(index).getText().equalsIgnoreCase(string))
+			{
+				System.out.println("Trying to click:"+list.get(index).getText());
+				Thread.sleep(1000);
+				list.get(index).click();	
+			}
+		}
+	}
+}

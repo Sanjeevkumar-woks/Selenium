@@ -1,0 +1,39 @@
+package com.htc.seleniumtest;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+
+public class WebDriverFactory 
+{
+public static WebDriver hello(String browserType)
+{
+	WebDriver webDriver=null;
+	if(browserType.equalsIgnoreCase("ie"))
+	{
+		System.out.println("ie");
+		//internet explorer=G:\\downloads\\IEDriverServer_x64_3.14.0\\IEDriverServer.exe
+		System.setProperty("webdriver.ie.driver", "G:\\downloads\\IEDriverServer_x64_3.14.0\\IEDriverServer.exe");
+		webDriver=new InternetExplorerDriver();
+	}
+	else if(browserType.equalsIgnoreCase("gecko"))
+	{
+		System.out.println("GeckoBrowser");
+		//mozilla firefox=G:\\downloads\\geckodriver-v0.26.0-win64\\geckodriver.exe
+		System.setProperty("webdriver.gecko.driver", "G:\\downloads\\geckodriver-v0.26.0-win64\\geckodriver.exe");
+		webDriver=new FirefoxDriver();
+	}
+	else if(browserType.equalsIgnoreCase("chrome"))
+	{
+		System.out.println("chromeBrowser");
+		System.setProperty("webdriver.chrome.driver", "F:\\selenium chrome driver\\chromedriver.exe");
+		webDriver=new ChromeDriver();
+	}
+	else
+	{
+		System.out.println("entered browser type is invalid");
+	}
+	return webDriver;
+}
+}

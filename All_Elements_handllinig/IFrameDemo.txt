@@ -1,0 +1,40 @@
+package com.htc.test.locators;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.concurrent.TimeUnit;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class IFrameDemo 
+{
+static WebDriver webDriver;	
+@BeforeClass
+public static void beforeClassMethod()
+{
+	webDriver=BrowsersSetUp.setUpBrowser("chrome");
+	webDriver.navigate().to("http://demo.guru99.com/selenium/guru99home");
+	System.out.println("Navigated Successfully");
+}
+@Test
+public void testMethod()
+{
+	webDriver.switchTo().frame(webDriver.findElement(By.id("a077aa5e")));
+	webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	webDriver.findElement(By.xpath("/html/body/a/img")).click();
+	webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	String expectedTitle="Demo Guru99 Page";
+	String actualTitle=webDriver.getTitle();
+	assertEquals(expectedTitle, actualTitle);
+}
+@AfterClass
+public static void afterClassMethod()
+{
+	webDriver.close();
+	webDriver.quit();
+}
+}

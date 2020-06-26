@@ -1,0 +1,33 @@
+package petshop;
+
+import java.io.IOException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import com.htc.selenium_pom.pageObjects.AutoIT_PageObjects;
+import com.htc.selenium_pom.utilites.LaunchBrowser;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+public class Autoit {
+	
+	public static void main(String[]args) throws IOException, InterruptedException
+	{
+                WebDriver driver=null;
+          	System.setProperty("webdriver.chrome.driver", "C:\\Selenium Software\\chromedriver.exe");
+		driver=new ChromeDriver();
+		driver.get("https://demoqa.com/automation-practice-form/");
+	        WebElement firstname=driver.findElement(By.name("firstname"));
+                firstname.sendKeys("NARUTO");
+		WebElement lastname=driver.findElement(By.id("lastname"));
+		LAStname.sendKeys("uzumaki");
+                WebElement upload=driver.findElement(By.xpath("//*[@id=\"photo\"]"));
+		upload.sendKeys(Keys.ENTER);
+		Thread.sleep(3000);
+		Runtime.getRuntime().exec("D:\\AutoIT\\AutoIt files\\Naruto.exe");
+                System.out.println("FILE UPLOADED");
+  }
+}		
+
+

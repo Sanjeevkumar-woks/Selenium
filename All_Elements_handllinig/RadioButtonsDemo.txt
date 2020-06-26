@@ -1,0 +1,36 @@
+package com.htc.test.locators;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class RadioButtonsDemo 
+{
+public static void main(String[] args) throws InterruptedException 
+{
+WebDriver webDriver=WebDriverFactory.hello("chrome");
+webDriver.navigate().to("https://google.com");
+WebElement webElement=webDriver.findElement(By.xpath("//*[@id=\"tsf\"]/div[2]/div[1]/div[1]/div/div[2]/input")); 	
+webElement.sendKeys("radio buttons website");
+Thread.sleep(5000);
+webDriver.findElement(By.className("gNO89b")).click();
+Thread.sleep(5000);
+webDriver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/a")).click();
+Thread.sleep(5000);
+List<WebElement> list=webDriver.findElements(By.xpath("//*[@id=\"radio\"]/form"));
+Thread.sleep(1000);
+boolean validation=false;
+validation=list.get(0).isSelected();
+if(validation==true)
+{
+	list.get(1).click();
+}
+else
+{
+	list.get(0).click();
+}
+System.out.println("TestPassed");
+}
+}

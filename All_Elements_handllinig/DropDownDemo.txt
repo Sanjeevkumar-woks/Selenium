@@ -1,0 +1,27 @@
+package com.htc.test.locators;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+public class DropDownDemo 
+{
+public static void main(String[] args) 
+{
+WebDriver webDriver=WebDriverFactory.hello("chrome");
+webDriver.navigate().to("https://google.com");
+WebElement webElement=webDriver.findElement(By.xpath("//*[@id=\"tsf\"]/div[2]/div[1]/div[1]/div/div[2]/input"));
+webElement.sendKeys("dropdown website");
+webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+webDriver.findElement(By.className("gNO89b")).click();
+webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+webDriver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/a")).click();
+webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+Select select=new Select(webDriver.findElement(By.xpath("//*[@id=\"blog-cat-dropdown\"]")));
+select.selectByIndex(1);
+System.out.println("TestPassed");
+}
+}
