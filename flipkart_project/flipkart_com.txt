@@ -1,0 +1,256 @@
+BrowsersSetUp Class:
+-------------------
+package com.htc.test.utility;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+
+public class BrowsersSetUp 
+{
+	public static WebDriver setUpBrowser(String browserType)
+	{
+		WebDriver webDriver=null;
+		if(browserType.equalsIgnoreCase("ie"))
+		{
+			System.out.println("ie");
+			//internet explorer=G:\\downloads\\IEDriverServer_x64_3.14.0\\IEDriverServer.exe
+			System.setProperty("webdriver.ie.driver", "G:\\downloads\\IEDriverServer_x64_3.14.0\\IEDriverServer.exe");
+			webDriver=new InternetExplorerDriver();
+		}
+		else if(browserType.equalsIgnoreCase("gecko"))
+		{
+			System.out.println("GeckoBrowser");
+			//mozilla firefox=G:\\downloads\\geckodriver-v0.26.0-win64\\geckodriver.exe
+			System.setProperty("webdriver.gecko.driver", "G:\\downloads\\geckodriver-v0.26.0-win64\\geckodriver.exe");
+			webDriver=new FirefoxDriver();
+		}
+		else if(browserType.equalsIgnoreCase("chrome"))
+		{
+			System.out.println("chromeBrowser");
+			System.setProperty("webdriver.chrome.driver", "F:\\selenium chrome driver\\chromedriver.exe");
+			webDriver=new ChromeDriver();
+		}
+		else
+		{
+			System.out.println("entered browser type is invalid");
+		}
+		return webDriver;
+	}
+}
+
+
+PageObjects Class:
+-----------------
+package com.htc.test.pageobjects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class PageObjects 
+{
+static WebElement webElement;
+public static WebElement setUserName(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div/form/div[1]/input"));
+	return webElement;
+}
+public static WebElement setPassword(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div/form/div[2]/input"));
+	return webElement;
+}
+public static WebElement setLoginButton(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div/form/div[3]/button"));
+	return webElement;
+}
+}
+
+UserPageObjects Class:
+---------------------
+
+package com.htc.test.pageobjects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class UserPageObjects 
+{
+static WebElement webElement;
+public static WebElement getSearchBar(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.xpath("//*[@id=\"container\"]/div/div[1]/div[1]/div[2]/div[2]/form/div/div/input"));
+	return webElement;
+}
+public static WebElement setLink(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.xpath("//*[@id=\"container\"]/div/div[3]/div[2]/div[1]/div[2]/div[2]/div/div/div/a"));
+	return webElement;
+}
+}
+
+1)
+TestClass:
+---------
+package com.htc.test.automation;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.htc.test.pageobjects.PageObjects;
+import com.htc.test.utility.BrowsersSetUp;
+
+public class TestClass 
+{
+static WebDriver webDriver;
+@BeforeClass
+public static void beforeClassMethod()
+{
+	webDriver=BrowsersSetUp.setUpBrowser("chrome");
+	webDriver.navigate().to("https://www.flipkart.com");
+}
+@DataProvider(name="logincredentials")
+public Object[][] webPage() throws IOException
+{
+Object[][] employeeData=new Object[1][2];
+int rowIndex=0;
+File file=new File("G:\\selenium_htc\\flipkartlogin.xls");
+FileInputStream fileInputStream=new FileInputStream(file);
+HSSFWorkbook hssfWorkbook=new HSSFWorkbook(fileInputStream);
+Sheet sheet=hssfWorkbook.getSheet("Sheet1");
+System.out.println("workbook created");
+for(Row row:sheet)
+{
+	long userId=(long) row.getCell(0).getNumericCellValue();
+	String userName=userId+"";
+	String password=row.getCell(1).getStringCellValue();
+	employeeData[rowIndex][0]=userName;
+	employeeData[rowIndex][1]=password;
+	rowIndex++;
+}
+hssfWorkbook.close();
+fileInputStream.close();
+return employeeData;
+}
+@Test(dataProvider="logincredentials")
+public void testMethod(String userName, String password ) throws IOException
+{
+	PageObjects.setUserName(webDriver).sendKeys(userName);
+	PageObjects.setPassword(webDriver).sendKeys(password);
+	PageObjects.setLoginButton(webDriver).click();
+	try
+	{
+		WebDriverWait webDriverWait=new WebDriverWait(webDriver, 5);
+		webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"container\"]/div/div[1]/div[1]/div[2]/div[2]/form/div/div/input")));
+		TakesScreenshot takesScreenshot=(TakesScreenshot) webDriver;
+		File file=takesScreenshot.getScreenshotAs(OutputType.FILE);
+		FileHandler.copy(file, new File("G:\\eclipsehtc\\SeleniumPart-2Q-3\\ScreenShots\\success.png"));
+	}
+	catch(IOException exception)
+	{
+		TakesScreenshot takesScreenshot=(TakesScreenshot) webDriver;
+		File file=takesScreenshot.getScreenshotAs(OutputType.FILE);
+		FileHandler.copy(file, new File("G:\\eclipsehtc\\SeleniumPart-2Q-3\\ScreenShots\\error.png"));
+	}
+}
+}
+
+2)
+UserTestClass:
+-------------
+package com.htc.test.automation;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.htc.test.pageobjects.PageObjects;
+import com.htc.test.pageobjects.UserPageObjects;
+import com.htc.test.utility.BrowsersSetUp;
+
+public class UserTestClass 
+{
+static WebDriver webDriver;
+@BeforeClass
+public static void beforeClassMethod()
+{
+	webDriver=BrowsersSetUp.setUpBrowser("chrome");
+	webDriver.navigate().to("https://www.flipkart.com");
+}
+@Test(dataProvider="logincredentials")
+public void testMethod(String userName, String password) throws IOException 
+{	
+	PageObjects.setUserName(webDriver).sendKeys(userName);
+	PageObjects.setPassword(webDriver).sendKeys(password);
+	PageObjects.setLoginButton(webDriver).click();
+	webDriver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
+	WebElement searchBox=UserPageObjects.getSearchBar(webDriver);
+	searchBox.sendKeys("Asus Laptop Core i3 Processor");
+	searchBox.sendKeys(Keys.ENTER);
+	webDriver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
+	JavascriptExecutor javascriptExecutor=(JavascriptExecutor) webDriver;
+	javascriptExecutor.executeScript("window.scrollBy(0,2000)");
+	TakesScreenshot takesScreenshot=(TakesScreenshot) webDriver;
+	File file=takesScreenshot.getScreenshotAs(OutputType.FILE);
+	FileHandler.copy(file, new File("G:\\eclipsehtc\\SeleniumPart-2Q-3\\ScreenShotsB\\result.png"));
+	UserPageObjects.setLink(webDriver).click();
+}
+@DataProvider(name="logincredentials")
+public Object[][] webPage() throws IOException
+{
+Object[][] employeeData=new Object[1][2];
+int rowIndex=0;
+File file=new File("G:\\selenium_htc\\flipkartlogin.xls");
+FileInputStream fileInputStream=new FileInputStream(file);
+HSSFWorkbook hssfWorkbook=new HSSFWorkbook(fileInputStream);
+Sheet sheet=hssfWorkbook.getSheet("Sheet1");
+System.out.println("workbook created");
+for(Row row:sheet)
+{
+	long userId=(long) row.getCell(0).getNumericCellValue();
+	String userName=userId+"";
+	String password=row.getCell(1).getStringCellValue();
+	employeeData[rowIndex][0]=userName;
+	employeeData[rowIndex][1]=password;
+	rowIndex++;
+}
+hssfWorkbook.close();
+fileInputStream.close();
+return employeeData;
+}
+}
+
