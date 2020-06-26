@@ -1,0 +1,349 @@
+				QUESTION 1
+				----------
+
+com.htc.pageObjects package
+---------------------------
+--> DecathlonObjects class
+    ---------------
+
+
+package com.htc.pageObjects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class DecathlonObjects {
+	
+	public static WebElement element;
+	public static WebElement searchBar(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"search\"]"));
+		return element;
+	}
+	public static WebElement racket(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/div[2]/div[2]/div[1]/div/div[4]/ul/li[1]/div/div/div[3]/div/a/div[2]"));
+		return element;
+	}
+	public static WebElement homeButton(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[1]/header/div/div[1]/div[2]/a/img"));
+		return element;
+	}
+	
+	public static WebElement addCart(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"democontainer\"]/div[5]/div[1]/div[2]/div[4]/button"));
+		return element;
+	}
+	public static WebElement newsRoom(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"democontainer\"]/div[6]/footer/div[1]/div[2]/div[1]/div[1]/div/div[3]/div[2]/a[3]"));
+		return element;
+	}
+	public static WebElement readMore(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[5]/div[4]/div/div/div[2]/div[3]/a/div/div/div"));
+		return element;
+	}
+	public static WebElement noThanks(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"wzrk-cancel\"]"));
+		return element;
+	}
+	
+
+	   
+}
+
+
+-->CourseraObjects class
+   -------------------
+
+package com.htc.pageObjects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class CourseraObjects {
+	
+	public static WebElement element;
+	public static WebElement joinForFree(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"c-ph-right-nav\"]/ul/li[4]/a"));
+		return element;
+	}
+	public static WebElement fullName(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"nameInput_6-input\"]"));
+		return element;
+	}
+	public static WebElement mailId(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"emailInput_7-input\"]"));
+		return element;
+	}
+	public static WebElement password(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"passwordInput_8-input\"]"));
+		return element;
+	}
+	public static WebElement joinButton(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"authentication-box-content\"]/div/div[3]/div[1]/div[1]/form/div/button/span"));
+		return element;
+	}
+	public static WebElement profile(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"authenticated-info-menu\"]/li[11]/div"));
+		return element;
+		
+	}
+	public static WebElement profileLink(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"profile-link\"]"));
+		return element;
+	}
+	public static WebElement skipButton(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"onboarding_skip_button_button\"]"));
+		return element;
+	}
+	
+	public static WebElement editProfile(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"rendered-content\"]/div/div/div[1]/div[2]/div[4]/button/span"));
+		return element;
+	}
+	
+	public static WebElement empStatus(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"coursera-profile-editor-form\"]/div[2]/div[2]/select"));
+		return element;
+	}
+	public static WebElement industry(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"coursera-profile-editor-form\"]/div[3]/div[1]/div[2]/div/div/div/div[1]"));
+		return element;
+	}
+	public static WebElement employer(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"coursera-profile-editor-form\"]/div[3]/div[2]/div[2]/div/div/div/div[1]"));
+		return element;
+	}
+	public static WebElement occupation(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"rendered-content\"]/div/div/div[1]/div[2]/div[2]/div[2]/button/span"));
+		return element;
+	}
+	public static WebElement experience(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"coursera-profile-editor-form\"]/div[4]/div/div[2]/select"));
+		return element;
+	}
+	public static WebElement courseSelect(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"rendered-content\"]/div/div/div/section/div[2]/div/div/section/div[1]/div/div[1]/div/section/div/div/div/div[2]/div/div[2]/div/div/div/div/a/div/div[4]/h4/div/div\r\n"));
+		return element;
+	}
+	public static WebElement logo(WebDriver driver)
+	{
+		element=driver.findElement(By.xpath("//*[@id=\"rendered-content\"]/div/div/div/span/div[1]/div/div/a/img"));
+		return element;
+	}
+	
+		
+		
+	
+}
+
+
+
+com.htc.test package
+--------------------
+
+-->TestDecathlon class
+   ---------------
+
+package com.htc.test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.htc.pageObjects.DecathlonObjects;
+import com.htc.utility.WebDriverFactory;
+
+public class TestDecathlon {
+	public WebDriver driver;
+
+	@BeforeClass
+	public void init()
+	{
+		driver=WebDriverFactory.getWebdriver("chrome");
+		driver.get("https://www.decathlon.in");
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+	}
+	@AfterClass
+	public void terminate()
+	{
+		driver.close();
+	}
+	@Test
+	public void decathlonTest() throws IOException
+	{
+		DecathlonObjects.noThanks(driver).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		DecathlonObjects.searchBar(driver).sendKeys("badminton racket");
+		DecathlonObjects.searchBar(driver).sendKeys(Keys.ENTER);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		DecathlonObjects.racket(driver).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		DecathlonObjects.addCart(driver).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		js.executeScript("arguments[1].scrollIntoView();", DecathlonObjects.newsRoom(driver));
+		File srcFile=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		FileHandler.copy(srcFile,new File("C:\\Users\\Anand\\Desktop\\SeleniumScreenshots\\bottomScrnSht.jpeg"));
+		DecathlonObjects.newsRoom(driver).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		js.executeScript("arguments[1].scrollIntoView();", DecathlonObjects.readMore(driver));
+		DecathlonObjects.readMore(driver).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		srcFile=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		FileHandler.copy(srcFile,new File("C:\\Users\\Anand\\Desktop\\SeleniumScreenshots\\readMoreScrnSht.jpeg"));
+		
+	}
+}
+
+
+
+-->TestCoursera class
+   ----------------
+
+
+package com.htc.test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.htc.pageObjects.CourseraObjects;
+import com.htc.utility.WebDriverFactory;
+
+public class TestCoursera {
+	public WebDriver driver;
+
+	@BeforeClass
+	public void init()
+	{
+		driver=WebDriverFactory.getWebdriver("chrome");
+		driver.get("https://www.coursera.com");
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+	}
+	@AfterClass
+	public void terminate()
+	{
+		driver.close();
+	}
+	@Test
+	public void courseraTest() throws IOException
+	{
+		CourseraObjects.joinForFree(driver).click();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		CourseraObjects.fullName(driver).sendKeys("Anand Krishna");
+		CourseraObjects.mailId(driver).sendKeys("anandkrishna.unni@gmail.com");
+		CourseraObjects.password(driver).sendKeys("CourseraPassword9!");
+		CourseraObjects.joinButton(driver).click();
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		CourseraObjects.skipButton(driver).click();
+		CourseraObjects.profile(driver).click();
+		CourseraObjects.profileLink(driver).click();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		CourseraObjects.editProfile(driver).click();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		Select empStatusSelect=new Select(CourseraObjects.empStatus(driver));
+		empStatusSelect.selectByIndex(2);
+		Select industrySelect=new Select(CourseraObjects.industry(driver));
+		industrySelect.selectByIndex(5);
+		Select employerSelect=new Select(CourseraObjects.employer(driver));
+		employerSelect.selectByIndex(1);
+		Select occupationSelect= new Select(CourseraObjects.occupation(driver));
+		occupationSelect.selectByIndex(5);
+		Select experienceSelect=new Select(CourseraObjects.experience(driver));
+		experienceSelect.selectByIndex(1);
+		CourseraObjects.logo(driver).click();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		CourseraObjects.courseSelect(driver);
+		File srcFile=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		FileHandler.copy(srcFile,new File("C:\\Users\\Anand\\Desktop\\SeleniumScreenshots\\courseSelectScrnSht.jpeg"));
+	}
+
+}
+
+
+
+
+
+com.htc.utilitiy package
+------------------------
+
+--> WebDriverFactory class
+    ---------------------
+
+
+package com.htc.utility;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class WebDriverFactory {
+	
+	public static WebDriver getWebdriver(String browsertype)
+	{
+		WebDriver driver=null;
+		if(browsertype.equalsIgnoreCase("chrome"))
+		{
+			System.out.println("Chrome Driver!!!");
+			System.setProperty("webdriver.chrome.driver", "E:\\Eclipse\\chromedriver_win32\\chromedriver.exe");
+			driver= new ChromeDriver();
+			
+		}
+		
+		else if(browsertype.equals("firefox"))
+		{
+			System.out.println("Firefox Driver!!!");
+			System.setProperty("webdriver.gecko.driver", "E:\\Eclipse\\geckodriver-v0.26.0-win32//geckodriver.exe");
+			driver=new FirefoxDriver();
+			
+		}
+		return driver;
+	}
+
+}
+
+
+
+
