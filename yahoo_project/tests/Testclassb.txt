@@ -1,0 +1,43 @@
+package com.htc.tests;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.htc.test.pageobjects.TermsPage;
+import com.htc.test.utility.BrowsersSetUp;
+
+public class TestClassB 
+{
+	static WebDriver webDriver;	
+	@BeforeClass
+	public static void beforeClass()
+	{
+		webDriver=BrowsersSetUp.setUpBrowser("gecko");	
+		webDriver.navigate().to("https://login.yahoo.com");
+		webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	}
+	@Test
+	public void TestMethod() throws IOException
+	{
+		TermsPage termsPage=new TermsPage();
+		termsPage.createAccount(webDriver).click();
+		webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		termsPage.TermsLink(webDriver).click();
+		webDriver.navigate().to("https://www.verizonmedia.com/policies/in/en/verizonmedia/terms/otos/index.html");
+		JavascriptExecutor javascriptExecutor=(JavascriptExecutor) webDriver;
+		javascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+		TakesScreenshot takesScreenshot=(TakesScreenshot) webDriver;
+		File file=takesScreenshot.getScreenshotAs(OutputType.FILE);
+		FileHandler.copy(file, new File("G:\\eclipsehtc\\SeleniumExercise1\\ScreenShotsB\\errorImage.png"));
+	}
+}

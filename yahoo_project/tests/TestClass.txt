@@ -1,0 +1,106 @@
+package com.htc.tests;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.htc.test.pageobjects.CreateAccount;
+import com.htc.test.utility.BrowsersSetUp;
+
+public class TestClass 
+{
+static WebDriver webDriver;	
+@BeforeClass
+public static void beforeClass()
+{
+	webDriver=BrowsersSetUp.setUpBrowser("gecko");	
+	webDriver.navigate().to("https://login.yahoo.com");
+	webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+}
+@DataProvider(name="logincredentials")
+public Object[][] webPage() throws IOException
+{
+Object[][] employeeData=new Object[1][8];
+int rowIndex=0;
+File file=new File("G:\\selenium_htc\\yahooexcelsheet.xls");
+FileInputStream fileInputStream=new FileInputStream(file);
+HSSFWorkbook hssfWorkbook=new HSSFWorkbook(fileInputStream);
+Sheet sheet=hssfWorkbook.getSheet("Sheet1");
+System.out.println("workbook created");
+for(Row row:sheet)
+{
+	String firstName=row.getCell(0).getStringCellValue();
+	String lastName=row.getCell(1).getStringCellValue();
+	String gmailId=row.getCell(2).getStringCellValue();
+	String password=row.getCell(3).getStringCellValue();
+	long mobileNumber=(long) row.getCell(4).getNumericCellValue();
+	int date=(int) row.getCell(5).getNumericCellValue();
+	int year=(int) row.getCell(6).getNumericCellValue();
+	String gender=row.getCell(7).getStringCellValue();
+	employeeData[rowIndex][0]=firstName;
+	employeeData[rowIndex][1]=lastName;
+	employeeData[rowIndex][2]=gmailId;
+	employeeData[rowIndex][3]=password;
+	employeeData[rowIndex][4]=mobileNumber;
+	employeeData[rowIndex][5]=date;
+	employeeData[rowIndex][6]=year;
+	employeeData[rowIndex][7]=gender;
+	rowIndex++;
+}
+hssfWorkbook.close();
+fileInputStream.close();
+return employeeData;
+}
+@Test(dataProvider="logincredentials")
+public void testMethod(String firstName, String lastName, String gmailId, String password, long mobileNumber, int date, int year, String gender) throws IOException
+{
+	System.out.println(firstName+" "+gender);
+	webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	webDriver.findElement(By.xpath("//*[@id=\"createacc\"]")).click();
+	webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	CreateAccount createAccount= new CreateAccount();
+	createAccount.firstName(webDriver).sendKeys(firstName);
+	createAccount.lastName(webDriver).sendKeys(lastName);
+	createAccount.gmailId(webDriver).sendKeys(gmailId);
+	List<WebElement> list=webDriver.findElements(By.tagName("li"));
+	String yahooId="tarakeswa97";
+	for(int index=0;index<list.size();index++)
+	{
+		if(yahooId.equalsIgnoreCase(list.get(index).getText()))
+		{
+			list.get(index).click();
+		}
+	}
+	createAccount.password(webDriver).sendKeys(password);
+	String contactNumber=mobileNumber+"";
+	createAccount.mobileNumber(webDriver).sendKeys(contactNumber);
+	Select select2=new Select(createAccount.birthMonth(webDriver));
+	select2.selectByIndex(2);
+	String date2=date+"";
+	createAccount.date(webDriver).sendKeys(date2);
+	String year2=year+"";
+	createAccount.year(webDriver).sendKeys(year2);
+	createAccount.gender(webDriver).sendKeys(gender);
+	webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	createAccount.submitButton(webDriver).click();
+	webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	TakesScreenshot takesScreenshot=((TakesScreenshot)webDriver);
+	File file=takesScreenshot.getScreenshotAs(OutputType.FILE);
+	FileHandler.copy(file, new File("G:\\eclipsehtc\\SeleniumExercise1\\ScreenShots\\errorImage.png"));
+}
+}

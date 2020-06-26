@@ -1,0 +1,21 @@
+package com.htc.test.pageobjects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class TermsPage 
+{
+WebElement webElement;
+public WebElement createAccount(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.id("createacc"));
+	return webElement;
+}
+public WebElement TermsLink(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.className("termsLink"));
+	return webElement;
+}
+}
+

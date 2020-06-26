@@ -1,0 +1,60 @@
+package com.htc.test.pageobjects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class CreateAccount 
+{	
+WebElement webElement;	
+public WebElement firstName(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.name("firstName"));
+	return webElement;
+}
+public WebElement lastName(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.name("lastName"));
+	return webElement;
+}
+public WebElement gmailId(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.name("yid"));
+	return webElement;
+}
+public WebElement password(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.name("password"));
+	return webElement;
+}
+public WebElement mobileNumber(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.name("phone"));
+	return webElement;
+}
+public WebElement birthMonth(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.id("usernamereg-month"));
+	return webElement;
+}
+public WebElement date(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.id("usernamereg-day"));
+	return webElement;
+}
+public WebElement year(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.id("usernamereg-year"));
+	return webElement;
+}
+public WebElement gender(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.id("usernamereg-freeformGender"));
+	return webElement;
+}
+public WebElement submitButton(WebDriver webDriver)
+{
+	webElement=webDriver.findElement(By.id("reg-submit-button"));
+	return webElement;
+}
+}

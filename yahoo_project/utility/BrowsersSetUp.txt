@@ -1,0 +1,37 @@
+package com.htc.test.utility;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+
+public class BrowsersSetUp 
+{
+	public static WebDriver setUpBrowser(String browserType)
+	{
+		WebDriver webDriver=null;
+		if(browserType.equalsIgnoreCase("ie"))
+		{
+			System.out.println("ie");
+			System.setProperty("webdriver.ie.driver", "C:\\Users\\ATComputers\\Desktop\\JAVA\\SELANIUM\\IEDriverServer.exe");
+			webDriver=new InternetExplorerDriver();
+		}
+		else if(browserType.equalsIgnoreCase("gecko"))
+		{
+			System.out.println("GeckoBrowser");
+			System.setProperty("webdriver.gecko.driver", "C:\\Users\\ATComputers\\Desktop\\JAVA\\SELANIUM\\geckodriver.exe");
+			webDriver=new FirefoxDriver();
+		}
+		else if(browserType.equalsIgnoreCase("chrome"))
+		{
+			System.out.println("chromeBrowser");
+			System.setProperty("webdriver.chrome.driver", "C:\\Users\\ATComputers\\Desktop\\JAVA\\SELANIUM\\chromedriver.exe");
+			webDriver=new ChromeDriver();
+		}
+		else
+		{
+			System.out.println("entered browser type is invalid");
+		}
+		return webDriver;
+	}
+}
